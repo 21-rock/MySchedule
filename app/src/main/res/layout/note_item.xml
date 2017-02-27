@@ -41,9 +41,4 @@
         android:gravity="right"
         android:textSize="30px" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#000" />
-
 </LinearLayout>

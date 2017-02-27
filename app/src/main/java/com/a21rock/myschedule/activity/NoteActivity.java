@@ -30,6 +30,7 @@ import com.a21rock.myschedule.adapter.NotesAdapter;
 import com.a21rock.myschedule.utils.LogUtil;
 import com.a21rock.myschedule.utils.ViewUtil;
 import com.a21rock.myschedule.bean.Note;
+import com.a21rock.myschedule.view.DividerItemDecoration;
 
 /* 学习记事 */
 public class NoteActivity extends BaseActivity {
@@ -70,6 +71,8 @@ public class NoteActivity extends BaseActivity {
         RecyclerView notesRecyclerView = (RecyclerView) view.findViewById(R.id.note_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         notesRecyclerView.setLayoutManager(layoutManager);
+        notesRecyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL_LIST));
         adapter = new NotesAdapter(noteList, NoteActivity.this);
         notesRecyclerView.setAdapter(adapter);
     }
