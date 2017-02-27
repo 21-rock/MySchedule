@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--设为single表示组中的所有菜单项只能单选-->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_note"
+            android:icon="@drawable/nav_note"
+            android:title="学习记事"/>
+        <item
+            android:id="@+id/nav_friends"
+            android:icon="@drawable/nav_friends"
+            android:title="我的小伙伴"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/nav_logout"
+            android:title="退出"/>
+    </group>
+</menu>
