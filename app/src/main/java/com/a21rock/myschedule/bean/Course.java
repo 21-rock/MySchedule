@@ -10,15 +10,25 @@ public class Course extends DataSupport {
 
     private int id;
 
-    private String title;  // 课程名称
+    private String title; // 课程名称
 
-    private String place;  // 地点
+    private String place; // 地点
 
-    private String time;     // 时间
+    private int lesson; // 第几节课，每天最多有五大节课
 
-    private int week;      // 周次
+    private String week; // 周次
 
     private String color; // 背景色
+
+    private int day; // 星期几
+
+    public Course(String title, String place, int lesson, String week, int day) {
+        this.title = title;
+        this.place = place;
+        this.lesson = lesson;
+        this.week = week;
+        this.day = day;
+    }
 
     public int getId() {
         return id;
@@ -44,19 +54,19 @@ public class Course extends DataSupport {
         this.place = place;
     }
 
-    public String getTime() {
-        return time;
+    public int getLesson() {
+        return lesson;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setLesson(int lesson) {
+        this.lesson = lesson;
     }
 
-    public int getWeek() {
+    public String getWeek() {
         return week;
     }
 
-    public void setWeek(int week) {
+    public void setWeek(String week) {
         this.week = week;
     }
 
@@ -66,5 +76,13 @@ public class Course extends DataSupport {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
     }
 }

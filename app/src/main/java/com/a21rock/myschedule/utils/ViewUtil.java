@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 public class ViewUtil {
 
-    /* 从Activity获取rootView根节点 */
+    // 从Activity获取rootView根节点
     public static View getRootView(Activity context) {
         return ((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0);
     }

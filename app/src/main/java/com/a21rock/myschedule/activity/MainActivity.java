@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -28,10 +27,14 @@ import android.widget.Toast;
 import com.a21rock.myschedule.R;
 
 import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
 
+import java.util.List;
 import java.util.Random;
 
+import com.a21rock.myschedule.bean.Course;
 import com.a21rock.myschedule.core.ActivityCollector;
+import com.a21rock.myschedule.db.Databases;
 import com.a21rock.myschedule.utils.LogUtil;
 import com.a21rock.myschedule.utils.ViewUtil;
 
@@ -115,7 +118,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    /* 初始化课程表数据，后续会改成从数据库获取 */
+    /* 初始化课程表数据 */
     private void initData() {
         //分别表示周一到周日
         ll1 = (LinearLayout) findViewById(R.id.ll1);
@@ -125,68 +128,69 @@ public class MainActivity extends BaseActivity {
         ll5 = (LinearLayout) findViewById(R.id.ll5);
         ll6 = (LinearLayout) findViewById(R.id.ll6);
         ll7 = (LinearLayout) findViewById(R.id.ll7);
-        //每天的课程设置
-        setNoClass(ll1, 2, 0);
-        setClass(ll1, "windows编程实践", "国软  4-503", "1-9周，每一周", "9:50-11:25", 1);
-        setNoClass(ll1, 2, 0);
-        setClass(ll1, "概率论与数理统计", "国软  4-304", "1-15周，每一周", "14:55-17:25", 2);
-        setNoClass(ll1, 2, 0);
 
+        Databases db = new Databases();
+        // 将课程表填充到界面
+        List<Course> courseList = db.getDayCourse(1);
+        displayCourse(courseList, ll1);
+        List<Course> courseList1 = db.getDayCourse(2);
+        displayCourse(courseList1, ll2);
+        List<Course> courseList2 = db.getDayCourse(3);
+        displayCourse(courseList2, ll3);
+        List<Course> courseList3 = db.getDayCourse(4);
+        displayCourse(courseList3, ll4);
+        List<Course> courseList4 = db.getDayCourse(5);
+        displayCourse(courseList4, ll5);
+        List<Course> courseList5 = db.getDayCourse(6);
+        displayCourse(courseList5, ll6);
+        List<Course> courseList6 = db.getDayCourse(7);
+        displayCourse(courseList6, ll7);
+    }
 
-        setClass(ll2, "大学英语", "国软 4-302", "1-18周，每一周", "8:00-9:35", 3);
-        setClass(ll2, "计算机组织体系与结构", "国软 4-204", "1-15，每一周", "9:50-12:15", 5);
-        setNoClass(ll2, 2, 0);
-        setClass(ll2, "团队激励和沟通", "国软 4-204", "1-9周，每一周", "15:45-17:25", 6);
-        setNoClass(ll2, 2, 0);
-
-
-        setNoClass(ll3, 2, 0);
-        setClass(ll3, "中国近现代史纲要", "3区 1-328", "1-9周，每一周", "9:50-12:15", 1);
-        setNoClass(ll3, 2, 0);
-        setClass(ll3, "体育(网球)", "信息学部 操场", "6-18周，每一周", "14:00-15:40", 2);
-        setNoClass(ll3, 2, 0);
-
-        setClass(ll4, "计算机组织体系与结构", "国软 4-204", "1-15，每一周", "8:00-9:35", 5);
-        setClass(ll4, "数据结构与算法", "国软 4-304", "1-18周，每一周", "9:50-12:15", 4);
-        setNoClass(ll4, 2, 0);
-        setClass(ll4, "面向对象程序设计(JAVA)", "国软 1-103", "1-18周，每一周", "14:00-16:30", 5);
-        setNoClass(ll4, 2, 0);
-
-
-        setClass(ll5, "c#程序设计", "国软 4-102", "1-9周，每一周", "8:00-9:35", 6);
-        setClass(ll5, "大学英语", "国软 4-302", "1-18周，每一周", "9:50-11:25", 3);
-        setNoClass(ll5, 2, 0);
-        setClass(ll5, "基础物理", "国软 4-304", "1-18周，每一周", "14:00-16:30", 1);
-        setNoClass(ll5, 2, 0);
-
-        setNoClass(ll6, 10, 0);
-
-        setNoClass(ll7, 10, 0);
+    // 把课程填充到界面
+    private void displayCourse(List<Course> courseList, LinearLayout linearLayout) {
+        int count = 0;
+        // 遍历周一的数据
+        for (int i = 0; i < courseList.size(); i++) {
+            Course course = courseList.get(i);
+            if (count > 0) {
+                if (course.getLesson() >= 2) {
+                    for (int x = 1; x < course.getLesson() - count; x++) {
+                        setNoClass(linearLayout, 2, 0);
+                    }
+                }
+            } else {
+                if (course.getLesson() >= 2) {
+                    for (int y = 1; y < course.getLesson(); y++) {
+                        setNoClass(linearLayout, 2, 0);
+                        ++count;
+                    }
+                }
+            }
+            setClass(linearLayout, course.getTitle(), course.getPlace(), course.getWeek());
+            ++count;
+        }
     }
 
     /**
      * 设置课程的方法
      *
      * @param ll
-     * @param title   课程名称
-     * @param place   地点
-     * @param last    时间
-     * @param time    周次
-     * @param color   背景色
+     * @param title 课程名称
+     * @param place 地点
+     * @param week  周次
      */
-    void setClass(LinearLayout ll, String title, String place,
-                  String last, String time, int color) {
+    void setClass(LinearLayout ll, String title, String place, String week) {
         View view = LayoutInflater.from(this).inflate(R.layout.item, null);
         int height = ViewUtil.dip2px(this, 100);   //48
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
         view.setLayoutParams(params);
         Random rand = new Random();
-        // 生成随机颜色，除了colors数组的第一项
+        // 生成随机颜色，除了colors数组的第一项(白色)
         view.setBackgroundColor(colors[rand.nextInt(colors.length - 1) + 1]);
         ((TextView) view.findViewById(R.id.title)).setText(title);
         ((TextView) view.findViewById(R.id.place)).setText(place);
-        ((TextView) view.findViewById(R.id.last)).setText(last);
-        ((TextView) view.findViewById(R.id.time)).setText(time);
+        ((TextView) view.findViewById(R.id.time)).setText(week);
         //为课程View设置点击监听器
         view.setOnClickListener(new OnClickClassListener());
         view.setOnLongClickListener(new OnLongClickClassListener());
@@ -270,13 +274,14 @@ public class MainActivity extends BaseActivity {
         btnDeleteCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "你点击了删除课程~", Toast.LENGTH_SHORT).show();
+                TextView tvId = (TextView) findViewById(R.id.course_id);
+                LogUtil.d("tvId", tvId.getText().toString());
+                Toast.makeText(MainActivity.this, tvId.getText().toString(), Toast.LENGTH_SHORT).show();
 
                 popWindow.dismiss();
             }
         });
     }
-
 
 
     // 初始化toolbar按钮
@@ -299,11 +304,21 @@ public class MainActivity extends BaseActivity {
             case R.id.add_course:
                 LogUtil.d("add_course", "调用了add_course");
 //                ll3.removeAllViews();
-                ll3.removeAllViews();
-                setNoClass(ll3, 4, 0);
-                setNoClass(ll3, 2, 0);
-                setClass(ll3, "体育(网球)", "信息学部 操场", "6-18周，每一周", "14:00-15:40", 2);
-                setNoClass(ll3, 2, 0);
+//                ll3.removeAllViews();
+//                setNoClass(ll3, 4, 0);
+//
+//                setClass(ll3, "体育(网球)", "信息学部 操场", "6-18周，每一周", "14:00-15:40");
+//                Course course = new Course("数学", "4302B", 2, "1-18周", 1);
+//                course.save();
+//                Course course1 = new Course("英语", "2024", 1, "1-18周", 2);
+//                course1.save();
+//                Course course2 = new Course("计算机组成原理", "2505", 4, "1-10周", 3);
+//                course2.save();
+//                Course course3 = new Course("算法设计与分析", "1404", 3, "1-18周", 3);
+//                course3.save();
+//                Course course4 = new Course("画画", "3606", 4, "1-18周", 1);
+//                course4.save();
+
 ////                setNoClass(ll3, 10, 0);
 //                setClass(ll3, "基础物理", "国软 4-304", "1-18周，每一周", "14:00-16:30", 2, 1);
 
