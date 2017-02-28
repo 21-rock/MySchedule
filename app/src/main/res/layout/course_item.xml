@@ -33,7 +33,7 @@
     	android:textColor="#ffffff"
     	android:textSize="10sp"/>   
     <TextView 
-        android:id="@+id/time"
+        android:id="@+id/week"
         android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:paddingBottom="13dp"

@@ -21,5 +21,9 @@ public class Databases {
         return courseList;
     }
 
+    public void editCourse(int id){}
 
+    public void deleteCourse(int id) {
+        DataSupport.delete(Course.class, id);
+    }
 }
