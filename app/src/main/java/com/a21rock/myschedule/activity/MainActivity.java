@@ -235,6 +235,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "你点击了修改课程~", Toast.LENGTH_SHORT).show();
                 popWindow.dismiss();
+                AddCourseActivity.actionStart(MainActivity.this);
             }
         });
         btnDeleteCourse.setOnClickListener(new View.OnClickListener() {

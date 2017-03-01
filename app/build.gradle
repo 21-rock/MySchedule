@@ -35,5 +35,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.idescout.sql:sqlscout-server:1.0'
     compile 'org.litepal.android:core:1.4.1'
+    compile 'com.android.support:support-v4:25.1.1'
     testCompile 'junit:junit:4.12'
 }
