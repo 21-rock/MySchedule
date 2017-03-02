@@ -143,7 +143,7 @@ public class AddCourseActivity extends AppCompatActivity {
         course.save();
     }
 
-    // 如果在想要添加课程的时间已经被添加了课程 会返回true
+    // 如果在想要添加课程的时间已经被添加了课程会返回true
     private boolean hasDuplicateCourse(int lesson, int day) {
         Cursor cursor = DataSupport.findBySQL("select * from Course where lesson = " + String.valueOf(lesson)
                 + " and day = " + String.valueOf(day));

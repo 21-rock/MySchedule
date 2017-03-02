@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.a21rock.myschedule">
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+
     <application
         android:name=".core.MyApplication"
         android:allowBackup="true"
@@ -20,6 +25,11 @@
         <activity android:name=".activity.NoteActivity" />
         <activity android:name=".activity.AddNoteActivity" />
         <activity android:name=".activity.AddCourseActivity" />
+
+        <service
+            android:name=".service.makePhoneSlientService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

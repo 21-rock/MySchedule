@@ -1,7 +1,12 @@
 package com.a21rock.myschedule.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+
+import static android.R.attr.format;
 
 /**
  * Created by 21rock on 2017/2/21.
@@ -12,7 +17,7 @@ public class DateUtil {
     public static final String FORMAT_TIME = "yyyy-MM-dd HH:mm:ss";
 
     public static String getCurrentTime() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         return formatter.format(curDate);
     }
@@ -63,4 +68,17 @@ public class DateUtil {
         return t;
     }
 
+    // 使用示例：DateUtil.dayForWeek(DateUtil.getCurrentTime())
+    public static int dayForWeek(String pTime) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date tmpDate = null;
+        try {
+            tmpDate = format.parse(pTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = new GregorianCalendar();
+        cal.set(tmpDate.getYear(), tmpDate.getMonth(), tmpDate.getDay());
+        return cal.get(Calendar.DAY_OF_WEEK);
+    }
 }

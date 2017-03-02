@@ -26,7 +26,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             incoming_number = intent.getStringExtra("incoming_number");
             if (incoming_number != null) {
                 SmsManager sms = SmsManager.getDefault();
-                sms.sendTextMessage(incoming_number, null, "正在上课呢，别打电话过来，不然弄死你", null, null);
+                sms.sendTextMessage(incoming_number, null, "正在上课呢，等我下课后我在打给你把", null, null);
                 Log.i(TAG, "RINGING :" + incoming_number);
             }
         }

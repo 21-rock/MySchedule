@@ -36,6 +36,7 @@ import java.util.Random;
 import com.a21rock.myschedule.bean.Course;
 import com.a21rock.myschedule.core.ActivityCollector;
 import com.a21rock.myschedule.db.Databases;
+import com.a21rock.myschedule.utils.DateUtil;
 import com.a21rock.myschedule.utils.LogUtil;
 import com.a21rock.myschedule.utils.SharedPreferencesUtil;
 import com.a21rock.myschedule.utils.ViewUtil;
