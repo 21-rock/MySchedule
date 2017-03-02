@@ -235,7 +235,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "你点击了修改课程~", Toast.LENGTH_SHORT).show();
                 popWindow.dismiss();
-                AddCourseActivity.actionStart(MainActivity.this);
+                AddCourseActivity.actionStart(MainActivity.this, true);
             }
         });
         btnDeleteCourse.setOnClickListener(new View.OnClickListener() {
@@ -296,7 +296,8 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.add_course:
                 LogUtil.d("add_course", "调用了add_course");
-
+                AddCourseActivity.actionStart(MainActivity.this, false);
+                finish();
                 break;
         }
         return true;

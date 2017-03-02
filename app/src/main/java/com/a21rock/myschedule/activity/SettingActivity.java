@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -18,6 +21,7 @@ public class SettingActivity extends BaseActivity implements CompoundButton.OnCh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        initToolbar();
         SwitchCompat mutePhone = (SwitchCompat) findViewById(R.id.switch_mute_phone);
         SwitchCompat remindBeforeClass = (SwitchCompat) findViewById(R.id.switch_remind_before_class);
         mutePhone.setOnCheckedChangeListener(this);
@@ -45,9 +49,29 @@ public class SettingActivity extends BaseActivity implements CompoundButton.OnCh
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return true;
+    }
+
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
         context.startActivity(intent);
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_setting);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // 显示导航按钮
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+        }
     }
 
 }
