@@ -20,4 +20,16 @@ public class SharedPreferencesUtil {
         SharedPreferences pref = activity.getSharedPreferences("courseId", Context.MODE_PRIVATE);
         return pref.getInt("id", 0);
     }
+
+    public static void setRemindClass(Activity activity, boolean flag) {
+        SharedPreferences.Editor editor = activity.getSharedPreferences("isRemindClass", Context.MODE_PRIVATE).edit();
+        editor.putBoolean("remindClassFlag", flag);
+        editor.apply();
+    }
+
+
+    public static boolean getRemindClassFlag(Activity activity) {
+        SharedPreferences pref = activity.getSharedPreferences("isRemindClass", Context.MODE_PRIVATE);
+        return pref.getBoolean("remindClassFlag", false);
+    }
 }

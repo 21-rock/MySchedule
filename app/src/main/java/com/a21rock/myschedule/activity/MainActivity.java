@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,12 +31,15 @@ import com.a21rock.myschedule.R;
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
 import com.a21rock.myschedule.bean.Course;
 import com.a21rock.myschedule.core.ActivityCollector;
 import com.a21rock.myschedule.db.Databases;
+import com.a21rock.myschedule.service.MyService;
+import com.a21rock.myschedule.service.RemindClassService;
 import com.a21rock.myschedule.utils.DateUtil;
 import com.a21rock.myschedule.utils.LogUtil;
 import com.a21rock.myschedule.utils.SharedPreferencesUtil;
@@ -83,6 +87,11 @@ public class MainActivity extends BaseActivity {
         ll7 = (LinearLayout) findViewById(R.id.ll7);
         updateScheduleView();
         LitePal.getDatabase();
+        Boolean isRemindClass = SharedPreferencesUtil.getRemindClassFlag(this);
+        if (isRemindClass) {
+            Intent StartServiceIntent = new Intent(this, RemindClassService.class);
+            startService(StartServiceIntent);
+        }
     }
 
     private void initDrawerLayout() {

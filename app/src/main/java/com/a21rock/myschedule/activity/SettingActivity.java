@@ -1,10 +1,14 @@
 package com.a21rock.myschedule.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -15,6 +19,9 @@ import com.a21rock.myschedule.R;
 
 
 import com.a21rock.myschedule.service.MyService;
+import com.a21rock.myschedule.service.RemindClassService;
+import com.a21rock.myschedule.utils.LogUtil;
+import com.a21rock.myschedule.utils.SharedPreferencesUtil;
 import com.a21rock.myschedule.utils.ViewUtil;
 
 public class SettingActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
@@ -26,6 +33,9 @@ public class SettingActivity extends BaseActivity implements CompoundButton.OnCh
         initToolbar();
         SwitchCompat mutePhone = (SwitchCompat) findViewById(R.id.switch_mute_phone);
         SwitchCompat remindBeforeClass = (SwitchCompat) findViewById(R.id.switch_remind_before_class);
+        if (SharedPreferencesUtil.getRemindClassFlag(this) == true) {
+            remindBeforeClass.setChecked(true);
+        }
         mutePhone.setOnCheckedChangeListener(this);
         remindBeforeClass.setOnCheckedChangeListener(this);
     }
@@ -48,8 +58,14 @@ public class SettingActivity extends BaseActivity implements CompoundButton.OnCh
             case R.id.switch_remind_before_class:
                 if (isChecked) {
                     Snackbar.make(view, "开启课前振动提醒", Snackbar.LENGTH_SHORT).show();
+                    SharedPreferencesUtil.setRemindClass(SettingActivity.this, true);
+                    Intent StartServiceIntent = new Intent(this, RemindClassService.class);
+                    startService(StartServiceIntent);
                 } else {
                     Snackbar.make(view, "关闭课前振动提醒", Snackbar.LENGTH_SHORT).show();
+                    SharedPreferencesUtil.setRemindClass(SettingActivity.this, false);
+                    Intent StopServiceIntent = new Intent(this, RemindClassService.class);
+                    stopService(StopServiceIntent);
                 }
                 break;
         }
