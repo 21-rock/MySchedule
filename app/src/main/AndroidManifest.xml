@@ -27,7 +27,7 @@
         <activity android:name=".activity.AddCourseActivity" />
 
         <service
-            android:name=".service.makePhoneSlientService"
+            android:name=".service.MyService"
             android:enabled="true"
             android:exported="true"></service>
     </application>

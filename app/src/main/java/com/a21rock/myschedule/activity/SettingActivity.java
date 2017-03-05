@@ -13,6 +13,8 @@ import android.widget.CompoundButton;
 
 import com.a21rock.myschedule.R;
 
+
+import com.a21rock.myschedule.service.MyService;
 import com.a21rock.myschedule.utils.ViewUtil;
 
 public class SettingActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
@@ -35,8 +37,12 @@ public class SettingActivity extends BaseActivity implements CompoundButton.OnCh
             case R.id.switch_mute_phone:
                 if (isChecked) {
                     Snackbar.make(view, "开启上课静音提醒", Snackbar.LENGTH_SHORT).show();
+                    Intent StartServiceIntent = new Intent(this, MyService.class);
+                    startService(StartServiceIntent);
                 } else {
                     Snackbar.make(view, "关闭上课静音提醒", Snackbar.LENGTH_SHORT).show();
+                    Intent StopServiceIntent = new Intent(this, MyService.class);
+                    stopService(StopServiceIntent);
                 }
                 break;
             case R.id.switch_remind_before_class:

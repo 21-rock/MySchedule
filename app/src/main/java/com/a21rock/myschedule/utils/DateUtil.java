@@ -68,6 +68,11 @@ public class DateUtil {
         return t;
     }
 
+    /**
+     * 取得当前是星期几
+     *
+     * @return
+     */
     // 使用示例：DateUtil.dayForWeek(DateUtil.getCurrentTime())
     public static int dayForWeek(String pTime) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

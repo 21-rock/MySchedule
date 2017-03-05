@@ -130,7 +130,6 @@ public class MainActivity extends BaseActivity {
     // 把课程填充到界面
     private void displayCourse(List<Course> courseList, LinearLayout linearLayout) {
         int count = 0;
-        // 遍历周一的数据
         for (int i = 0; i < courseList.size(); i++) {
             Course course = courseList.get(i);
             if (count > 0) {
