@@ -60,12 +60,12 @@ public class SettingActivity extends BaseActivity implements CompoundButton.OnCh
                     Snackbar.make(view, "开启课前振动提醒", Snackbar.LENGTH_SHORT).show();
                     SharedPreferencesUtil.setRemindClass(SettingActivity.this, true);
                     Intent StartServiceIntent = new Intent(this, RemindClassService.class);
-                    startService(StartServiceIntent);
+                    getApplicationContext().startService(StartServiceIntent);
                 } else {
                     Snackbar.make(view, "关闭课前振动提醒", Snackbar.LENGTH_SHORT).show();
                     SharedPreferencesUtil.setRemindClass(SettingActivity.this, false);
                     Intent StopServiceIntent = new Intent(this, RemindClassService.class);
-                    stopService(StopServiceIntent);
+                    getApplicationContext().stopService(StopServiceIntent);
                 }
                 break;
         }

@@ -24,12 +24,16 @@ import java.util.List;
 
 public class RemindClassService extends Service {
 
+    private AlarmManager manager;
+    private PendingIntent pi;
+
     public RemindClassService() {
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        LogUtil.d("onCreate", "remindClassService was onCreate");
     }
 
     @Override
@@ -40,6 +44,7 @@ public class RemindClassService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        LogUtil.d("onStartCommand", "remindClassService was onStartCommand");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -84,11 +89,11 @@ public class RemindClassService extends Service {
                 }
             }
         }).start();
-        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         int minute = 60 * 1000; // 这是一分钟的毫秒数
         long triggerAtTime = SystemClock.elapsedRealtime() + minute;
         Intent i = new Intent(this, RemindClassReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+        pi = PendingIntent.getBroadcast(this, 0, i, 0);
         manager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         return super.onStartCommand(intent, flags, startId);
     }
@@ -96,6 +101,8 @@ public class RemindClassService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        pi.cancel();
+        LogUtil.d("onDestory", "remindClassService was onDestroy");
     }
 
     private List<Course> getTodayCourse() {
