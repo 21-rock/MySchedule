@@ -27,7 +27,7 @@
         <activity android:name=".activity.AddCourseActivity" />
 
         <service
-            android:name=".service.MyService"
+            android:name=".service.ClassTimeSlientService"
             android:enabled="true"
             android:exported="true" />
         <service
@@ -38,7 +38,11 @@
         <receiver
             android:name=".receiver.RemindClassReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
+        <receiver
+            android:name=".receiver.ClassTimeSlientReceiver"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

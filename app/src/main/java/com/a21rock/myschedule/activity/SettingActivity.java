@@ -1,14 +1,10 @@
 package com.a21rock.myschedule.activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -18,9 +14,8 @@ import android.widget.CompoundButton;
 import com.a21rock.myschedule.R;
 
 
-import com.a21rock.myschedule.service.MyService;
+import com.a21rock.myschedule.service.ClassTimeSlientService;
 import com.a21rock.myschedule.service.RemindClassService;
-import com.a21rock.myschedule.utils.LogUtil;
 import com.a21rock.myschedule.utils.SharedPreferencesUtil;
 import com.a21rock.myschedule.utils.ViewUtil;
 
@@ -36,6 +31,9 @@ public class SettingActivity extends BaseActivity implements CompoundButton.OnCh
         if (SharedPreferencesUtil.getRemindClassFlag(this) == true) {
             remindBeforeClass.setChecked(true);
         }
+        if (SharedPreferencesUtil.getPhoneSlientFlag(this) == true) {
+            mutePhone.setChecked(true);
+        }
         mutePhone.setOnCheckedChangeListener(this);
         remindBeforeClass.setOnCheckedChangeListener(this);
     }
@@ -46,13 +44,15 @@ public class SettingActivity extends BaseActivity implements CompoundButton.OnCh
         switch (buttonView.getId()) {
             case R.id.switch_mute_phone:
                 if (isChecked) {
+                    SharedPreferencesUtil.setPhoneSlient(SettingActivity.this, true);
                     Snackbar.make(view, "开启上课静音提醒", Snackbar.LENGTH_SHORT).show();
-                    Intent StartServiceIntent = new Intent(this, MyService.class);
-                    startService(StartServiceIntent);
+                    Intent StartServiceIntent = new Intent(this, ClassTimeSlientService.class);
+                    getApplicationContext().startService(StartServiceIntent);
                 } else {
+                    SharedPreferencesUtil.setPhoneSlient(SettingActivity.this, false);
                     Snackbar.make(view, "关闭上课静音提醒", Snackbar.LENGTH_SHORT).show();
-                    Intent StopServiceIntent = new Intent(this, MyService.class);
-                    stopService(StopServiceIntent);
+                    Intent StopServiceIntent = new Intent(this, ClassTimeSlientService.class);
+                    getApplicationContext().stopService(StopServiceIntent);
                 }
                 break;
             case R.id.switch_remind_before_class:

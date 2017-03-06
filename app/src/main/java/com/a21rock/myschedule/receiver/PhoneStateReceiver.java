@@ -16,19 +16,43 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
     private static final String TAG = "PhoneStateReceiver";
 
-    private String incoming_number = null;
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
+        String action = intent.getAction();
+        Log.d("action", "[Broadcast]" + action);
 
-        if (tm.getCallState() == TelephonyManager.CALL_STATE_RINGING) {
-            incoming_number = intent.getStringExtra("incoming_number");
-            if (incoming_number != null) {
-                SmsManager sms = SmsManager.getDefault();
-                sms.sendTextMessage(incoming_number, null, "正在上课呢，等我下课后我在打给你把", null, null);
-                Log.i(TAG, "RINGING :" + incoming_number);
-            }
+        if (action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
+            doReceivePhone(context, intent);
+        }
+    }
+
+    /**
+     * 处理电话广播.
+     *
+     * @param context
+     * @param intent
+     */
+    public void doReceivePhone(Context context, Intent intent) {
+        String phoneNumber = intent.getStringExtra(
+                TelephonyManager.EXTRA_INCOMING_NUMBER);
+        TelephonyManager telephony =
+                (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        int state = telephony.getCallState();
+        switch (state) {
+            case TelephonyManager.CALL_STATE_RINGING:
+                Log.i(TAG, "[Broadcast]等待接电话=" + phoneNumber);
+                if (phoneNumber != null) {
+
+                    SmsManager sms = SmsManager.getDefault();
+                    sms.sendTextMessage(phoneNumber, null, "正在上课呢，别打电话过来，我下课再打给你把", null, null);
+                }
+                break;
+            case TelephonyManager.CALL_STATE_IDLE:
+                Log.i(TAG, "[Broadcast]电话挂断=" + phoneNumber);
+                break;
+            case TelephonyManager.CALL_STATE_OFFHOOK:
+                Log.i(TAG, "[Broadcast]通话中=" + phoneNumber);
+                break;
         }
     }
 }

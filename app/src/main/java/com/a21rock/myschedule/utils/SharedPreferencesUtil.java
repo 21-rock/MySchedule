@@ -32,4 +32,16 @@ public class SharedPreferencesUtil {
         SharedPreferences pref = activity.getSharedPreferences("isRemindClass", Context.MODE_PRIVATE);
         return pref.getBoolean("remindClassFlag", false);
     }
+
+    public static void setPhoneSlient(Activity activity, boolean flag) {
+        SharedPreferences.Editor editor = activity.getSharedPreferences("isSetPhoneSlient", Context.MODE_PRIVATE).edit();
+        editor.putBoolean("phoneSlientFlag", flag);
+        editor.apply();
+    }
+
+
+    public static boolean getPhoneSlientFlag(Activity activity) {
+        SharedPreferences pref = activity.getSharedPreferences("isSetPhoneSlient", Context.MODE_PRIVATE);
+        return pref.getBoolean("phoneSlientFlag", false);
+    }
 }

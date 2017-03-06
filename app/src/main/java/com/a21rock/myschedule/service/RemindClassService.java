@@ -125,5 +125,4 @@ public class RemindClassService extends Service {
                 .build();
         manager.notify(1, notification);
     }
-
 }

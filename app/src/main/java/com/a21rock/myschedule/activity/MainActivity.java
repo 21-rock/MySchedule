@@ -1,7 +1,6 @@
 package com.a21rock.myschedule.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,12 +12,10 @@ import android.os.Bundle;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -29,18 +26,15 @@ import android.widget.Toast;
 import com.a21rock.myschedule.R;
 
 import org.litepal.LitePal;
-import org.litepal.crud.DataSupport;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
 import com.a21rock.myschedule.bean.Course;
 import com.a21rock.myschedule.core.ActivityCollector;
 import com.a21rock.myschedule.db.Databases;
-import com.a21rock.myschedule.service.MyService;
+import com.a21rock.myschedule.service.ClassTimeSlientService;
 import com.a21rock.myschedule.service.RemindClassService;
-import com.a21rock.myschedule.utils.DateUtil;
 import com.a21rock.myschedule.utils.LogUtil;
 import com.a21rock.myschedule.utils.SharedPreferencesUtil;
 import com.a21rock.myschedule.utils.ViewUtil;
@@ -89,8 +83,13 @@ public class MainActivity extends BaseActivity {
         LitePal.getDatabase();
         Boolean isRemindClass = SharedPreferencesUtil.getRemindClassFlag(this);
         if (isRemindClass) {
-            Intent StartServiceIntent = new Intent(this, RemindClassService.class);
-            startService(StartServiceIntent);
+            Intent startServiceIntent = new Intent(this, RemindClassService.class);
+            startService(startServiceIntent);
+        }
+        Boolean isSetPhoneSlientFlag = SharedPreferencesUtil.getPhoneSlientFlag(this);
+        if (isSetPhoneSlientFlag) {
+            Intent startServiceIntent = new Intent(this, ClassTimeSlientService.class);
+            startService(startServiceIntent);
         }
     }
 
