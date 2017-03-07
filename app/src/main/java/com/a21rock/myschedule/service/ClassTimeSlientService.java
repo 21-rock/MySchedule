@@ -9,6 +9,7 @@ import android.media.AudioManager;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.a21rock.myschedule.bean.Course;
 import com.a21rock.myschedule.receiver.PhoneStateReceiver;
@@ -47,6 +48,7 @@ public class ClassTimeSlientService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        LogUtil.d("ClassTimeSlientService", "ClassTimeSlientService的onStartCommand正在运行中");
         //声明一个获取系统音频服务的类的对象
         audioManager = (AudioManager)getSystemService(Service.AUDIO_SERVICE);
         //获取手机之前设置好的铃声模式
@@ -69,9 +71,11 @@ public class ClassTimeSlientService extends Service {
                 int minute = c.get(Calendar.MINUTE);
                 List<Course> courseList = getTodayCourse();
                 for (int i = 0; i < courseList.size(); i++) {
+                    LogUtil.d("ClassTimeSlientService", courseList.get(i).getTitle()+courseList.get(i).getLesson());
                     switch (courseList.get(i).getLesson()) {
                         case 1:
-                            if (hour == 8 && minute >= 25) {
+                            if (hour == 11 && minute >= 25) {
+                                LogUtil.d("1s", "");
                                 setOriginRingerToSlientMode();
                                 registerPhoneStateReceiveer();
                             } else if (hour == 10 && minute >= 05){
@@ -129,12 +133,14 @@ public class ClassTimeSlientService extends Service {
     }
 
     private void unRegisterPhoneStateReceiveer() {
+        LogUtil.d("ClassTimeSlientService", "调用了unRegisterPhoneStateReceiver");
         if (phoneStateReceiver != null) {
             unregisterReceiver(phoneStateReceiver);
         }
     }
 
     private void registerPhoneStateReceiveer() {
+        LogUtil.d("ClassTimeSlientService", "调用了registerPhoneStateReceiver");
         phoneStateReceiver = new PhoneStateReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
@@ -144,6 +150,7 @@ public class ClassTimeSlientService extends Service {
 
     private List<Course> getTodayCourse() {
         int day = DateUtil.dayForWeek(DateUtil.getCurrentTime());
+        LogUtil.d("day", "今天是星期" + day);
         return DataSupport.where("day = ?", String.valueOf(day)).order("lesson asc").find(Course.class);
     }
 

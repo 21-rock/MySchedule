@@ -53,10 +53,11 @@ public class RemindClassService extends Service {
                 int hour = c.get(Calendar.HOUR_OF_DAY);
 
                 int minute = c.get(Calendar.MINUTE);
-                LogUtil.e("ddddd", "hour" + hour);
-                LogUtil.e("ddddd", "minute" + minute);
+                LogUtil.d("RemindClassService", "hour" + hour);
+                LogUtil.d("RemindClassService", "minute" + minute);
                 List<Course> courseList = getTodayCourse();
                 for (int i = 0; i < courseList.size(); i++) {
+                    LogUtil.d("RemindClassService", courseList.get(i).getTitle()+courseList.get(i).getLesson());
                     switch (courseList.get(i).getLesson()) {
                         case 1:
                             if (hour == 7 && minute == 55) {
@@ -117,7 +118,7 @@ public class RemindClassService extends Service {
                 .setContentTitle("上课提醒")
                 .setContentText("老师还有30分钟到达战场，全军出击")
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.app_logo)
                 .setLargeIcon(BitmapFactory.decodeResource(
                         getResources(), R.drawable.app_logo))
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)
